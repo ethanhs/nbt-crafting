@@ -20,14 +20,13 @@ package de.siphalor.nbtcrafting;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.mojang.datafixers.util.Pair;
 
-import de.siphalor.nbtcrafting.network.ServerLoginNetworkHandlerAccess;
+import de.siphalor.nbtcrafting.network.ServerNetworkHandlerAccess;
 
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.*;
@@ -160,17 +159,17 @@ public class NbtCrafting implements ModInitializer {
 			sender.sendPacket(PRESENCE_CHANNEL, new PacketByteBuf(Unpooled.buffer()));
 		});
 		ServerLoginConnectionEvents.DISCONNECT.register((handler, server) -> {
-			hasModClientConnectionHashes.remove(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
+			hasModClientConnectionHashes.remove(((ServerNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
 		});
 		ServerLoginNetworking.registerGlobalReceiver(PRESENCE_CHANNEL, (server, handler, understood, buf, synchronizer, responseSender) -> {
 			if (understood) {
-				hasModClientConnectionHashes.add(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
+				hasModClientConnectionHashes.add(((ServerNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
 			}
 		});
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-			if (hasModClientConnectionHashes.contains(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode())) {
+			if (hasModClientConnectionHashes.contains(((ServerNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode())) {
 				((IServerPlayerEntity) handler.player).nbtCrafting$setClientModPresent(true);
-				hasModClientConnectionHashes.remove(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
+				hasModClientConnectionHashes.remove(((ServerNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
 			}
 		});
 	}
