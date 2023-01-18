@@ -26,6 +26,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.mojang.datafixers.util.Pair;
+
+import de.siphalor.nbtcrafting.network.ServerLoginNetworkHandlerAccess;
+
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.*;
 import net.fabricmc.api.ModInitializer;
@@ -157,17 +160,17 @@ public class NbtCrafting implements ModInitializer {
 			sender.sendPacket(PRESENCE_CHANNEL, new PacketByteBuf(Unpooled.buffer()));
 		});
 		ServerLoginConnectionEvents.DISCONNECT.register((handler, server) -> {
-			hasModClientConnectionHashes.remove(handler.getConnection().hashCode());
+			hasModClientConnectionHashes.remove(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
 		});
 		ServerLoginNetworking.registerGlobalReceiver(PRESENCE_CHANNEL, (server, handler, understood, buf, synchronizer, responseSender) -> {
 			if (understood) {
-				hasModClientConnectionHashes.add(handler.getConnection().hashCode());
+				hasModClientConnectionHashes.add(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
 			}
 		});
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-			if (hasModClientConnectionHashes.contains(handler.getConnection().hashCode())) {
+			if (hasModClientConnectionHashes.contains(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode())) {
 				((IServerPlayerEntity) handler.player).nbtCrafting$setClientModPresent(true);
-				hasModClientConnectionHashes.remove(handler.getConnection().hashCode());
+				hasModClientConnectionHashes.remove(((ServerLoginNetworkHandlerAccess)handler).nbtCrafting$getConnection().hashCode());
 			}
 		});
 	}

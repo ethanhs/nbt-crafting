@@ -1,8 +1,8 @@
 {
-	"required": true,
-	"package": "de.siphalor.nbtcrafting.mixin",
-	"compatibilityLevel": "JAVA_8",
-	"mixins": [
+	"required" : true,
+	"package" : "de.siphalor.nbtcrafting.mixin",
+	"compatibilityLevel" : "JAVA_8",
+	"mixins" : [
 		"MixinIngredient",
 		"MixinInputSlotFiller",
 		"MixinItemStack",
@@ -28,15 +28,16 @@
 		"cutting.MixinCuttingRecipeSerializer",
 		"cutting.MixinStonecutterContainer",
 		"network.MixinPlayerManager",
+		"network.MixinServerLoginNetworkHandler",
 		"network.MixinSynchronizeRecipesS2CPacket",
 		"smithing.MixinSmithingScreenHandler"
 	],
-	"client": [
+	"client" : [
 		"client.AnvilScreenAccessor",
 		"client.MixinAnimatedResultButton",
 		"client.MixinRecipeBookGhostSlots"
 	],
-	"injectors": {
-		"defaultRequire": 1
+	"injectors" : {
+		"defaultRequire" : 1
 	}
 }
