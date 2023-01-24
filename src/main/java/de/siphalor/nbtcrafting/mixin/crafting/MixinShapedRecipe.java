@@ -28,6 +28,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -106,8 +107,8 @@ public abstract class MixinShapedRecipe {
 		ci.setReturnValue(stack);
 	}
 
-	@Inject(method = "craft", at = @At("HEAD"), cancellable = true)
-	public void craft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> callbackInfoReturnable) {
+	@Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
+	public void craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager, CallbackInfoReturnable<ItemStack> callbackInfoReturnable) {
 		ItemStack result = RecipeUtil.getDollarAppliedResult(output, input, craftingInventory);
 		if (result != null) callbackInfoReturnable.setReturnValue(result);
 	}

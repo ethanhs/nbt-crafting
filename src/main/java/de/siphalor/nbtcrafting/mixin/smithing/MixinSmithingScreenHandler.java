@@ -28,7 +28,10 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SmithingScreenHandler;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,6 +44,7 @@ import de.siphalor.nbtcrafting.recipe.IngredientRecipe;
 
 @Mixin(SmithingScreenHandler.class)
 public abstract class MixinSmithingScreenHandler extends ForgingScreenHandler {
+	@Shadow @Final private World world;
 	@Unique
 	private static DefaultedList<ItemStack> remainders = null;
 
@@ -57,7 +61,7 @@ public abstract class MixinSmithingScreenHandler extends ForgingScreenHandler {
 		Optional<IngredientRecipe<Inventory>> match = player.world.getRecipeManager().getFirstMatch(NbtCrafting.SMITHING_RECIPE_TYPE, input, player.world);
 
 		if (match.isPresent()) {
-			output.setStack(0, match.get().craft(input));
+			output.setStack(0, match.get().craft(input, this.world.getRegistryManager()));
 			callbackInfo.cancel();
 		}
 	}
