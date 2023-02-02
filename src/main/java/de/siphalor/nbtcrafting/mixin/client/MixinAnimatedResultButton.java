@@ -46,7 +46,7 @@ public abstract class MixinAnimatedResultButton extends ClickableWidget {
 	}
 
 	@Inject(
-			method = "renderButton",
+			method = "method_48579",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderInGui(Lnet/minecraft/item/ItemStack;II)V"),
 			locals = LocalCapture.CAPTURE_FAILSOFT
 	)
@@ -55,7 +55,7 @@ public abstract class MixinAnimatedResultButton extends ClickableWidget {
 	}
 
 	@Inject(
-			method = "renderButton",
+			method = "method_48579",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderInGui(Lnet/minecraft/item/ItemStack;II)V", shift = Shift.AFTER),
 			locals = LocalCapture.CAPTURE_FAILSOFT
 	)
