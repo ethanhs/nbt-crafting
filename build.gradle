@@ -46,7 +46,7 @@ dependencies {
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:10.0.578") {
 		exclude group: "net.fabricmc.fabric-api"
 	}
-	modLocalRuntime("dev.emi:emi:0.5.0+1.19.3")
+	//modLocalRuntime("dev.emi:emi:0.7.0+1.19.3")
 	//modLocalRuntime("de.siphalor:modsoftheworld-$minecraft_major_version:1.0.9+mc1.18-pre1") {
 	//	transitive false
 	//}
