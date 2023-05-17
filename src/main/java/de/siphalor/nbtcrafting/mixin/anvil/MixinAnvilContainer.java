@@ -68,9 +68,9 @@ public abstract class MixinAnvilContainer extends ForgingScreenHandler {
 
 	@Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
 	public void updateResult(CallbackInfo callbackInfo) {
-		recipe = player.world.getRecipeManager().getFirstMatch(NbtCrafting.ANVIL_RECIPE_TYPE, input, player.world).orElse(null);
+		recipe = player.getWorld().getRecipeManager().getFirstMatch(NbtCrafting.ANVIL_RECIPE_TYPE, input, player.getWorld()).orElse(null);
 		if (recipe != null) {
-			ItemStack resultStack = recipe.craft(input, player.world.getRegistryManager());
+			ItemStack resultStack = recipe.craft(input, player.getWorld().getRegistryManager());
 			repairItemUsage = 1;
 			if (userChangedName) {
 				if (
@@ -101,7 +101,7 @@ public abstract class MixinAnvilContainer extends ForgingScreenHandler {
 	}
 
 	@Inject(method = "setNewItemName", at = @At("HEAD"))
-	public void onNewItemNameSet(String newNewItemName, CallbackInfo callbackInfo) {
+	public void onNewItemNameSet(String newNewItemName, CallbackInfoReturnable<Boolean> callbackInfo) {
 		userChangedName = true;
 	}
 
@@ -113,7 +113,7 @@ public abstract class MixinAnvilContainer extends ForgingScreenHandler {
 	public void canTakeItemsTop(PlayerEntity player, boolean present, CallbackInfoReturnable<Boolean> cir) {
 		if (levelCost.get() <= 0) {
 			ItemStack base = getSlot(0).getStack();
-			if (!ItemStack.areItemsEqual(getSlot(2).getStack(), base) || !ItemStack.areNbtEqual(getSlot(2).getStack(), base)) {
+			if (!ItemStack.areItemsEqual(getSlot(2).getStack(), base) || !ItemStack.areEqual(getSlot(2).getStack(), base)) {
 				cir.setReturnValue(true);
 			}
 		}
@@ -136,7 +136,7 @@ public abstract class MixinAnvilContainer extends ForgingScreenHandler {
 			if (!recipe.getBase().isEmpty()) {
 				originalBaseStack.decrement(1);
 				getSlot(0).setStack(originalBaseStack);
-				stack.onCraft(player.world, player, stack.getCount());
+				stack.onCraft(player.getWorld(), player, stack.getCount());
 			}
 		}
 		if (player instanceof ServerPlayerEntity) {

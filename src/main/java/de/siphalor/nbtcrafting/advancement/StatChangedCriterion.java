@@ -24,6 +24,7 @@ import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stat;
@@ -49,7 +50,7 @@ public class StatChangedCriterion extends AbstractCriterion<StatChangedCriterion
 	}
 
 	@Override
-	protected Conditions<?> conditionsFromJson(JsonObject obj, EntityPredicate.Extended playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
+	protected Conditions<?> conditionsFromJson(JsonObject obj, LootContextPredicate playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
 		Identifier statId = new Identifier(JsonHelper.getString(obj, "stat"));
 		StatType<?> statType = Registries.STAT_TYPE.getOrEmpty(statId).orElseThrow(() -> new JsonSyntaxException("Unknown stat: " + statId));
 
@@ -64,7 +65,7 @@ public class StatChangedCriterion extends AbstractCriterion<StatChangedCriterion
 		private final T object;
 		private final NumberRange.IntRange intRange;
 
-		public Conditions(StatType<T> statType, T object, NumberRange.IntRange intRange, EntityPredicate.Extended playerPredicate) {
+		public Conditions(StatType<T> statType, T object, NumberRange.IntRange intRange, LootContextPredicate playerPredicate) {
 			super(ID, playerPredicate);
 			this.statType = statType;
 			this.object = object;

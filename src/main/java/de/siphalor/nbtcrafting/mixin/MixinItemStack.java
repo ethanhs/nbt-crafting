@@ -33,15 +33,15 @@ public class MixinItemStack implements IItemStack {
 	@Shadow
 	private NbtCompound nbt;
 
-	@Inject(method = "areNbtEqual", at = @At(value = "RETURN", ordinal = 2), cancellable = true)
+	@Inject(method = "areEqual", at = @At(value = "RETURN", ordinal = 2), cancellable = true)
 	private static void areTagsEqualReturn1(ItemStack stack1, ItemStack stack2, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-		if (stack2.getNbt().isEmpty())
+		if (stack2.getNbt() == null || stack2.getNbt().isEmpty())
 			callbackInfoReturnable.setReturnValue(true);
 	}
 
-	@Inject(method = "areNbtEqual", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtCompound;equals(Ljava/lang/Object;)Z"), cancellable = true)
+	@Inject(method = "canCombine", at = @At(value = "INVOKE", target = "Ljava/util/Objects;equals(Ljava/lang/Object;Ljava/lang/Object;)Z"), cancellable = true)
 	private static void areTagsEqualReturn2(ItemStack stack1, ItemStack stack2, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-		if (stack1.getNbt() == null && stack2.getNbt().isEmpty())
+		if (stack1.getNbt() == null && (stack2.getNbt() == null || stack2.getNbt().isEmpty()))
 			callbackInfoReturnable.setReturnValue(true);
 	}
 

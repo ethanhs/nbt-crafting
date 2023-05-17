@@ -42,7 +42,7 @@ public class MixinAbstractFurnaceBlockEntity {
 			cancellable = true
 	)
 	private static void canAcceptRecipeOutputNBTCheck(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count, CallbackInfoReturnable<Boolean> cir, ItemStack recipeResult, ItemStack outputStack) {
-		if (!ItemStack.areNbtEqual(recipeResult, outputStack)) {
+		if (!ItemStack.areEqual(recipeResult, outputStack)) {
 			cir.setReturnValue(false);
 		}
 	}

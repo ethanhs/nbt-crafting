@@ -18,6 +18,7 @@
 package de.siphalor.nbtcrafting.mixin.crafting;
 
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.ShapelessRecipe;
@@ -42,8 +43,8 @@ public class MixinShapelessRecipe {
 	@Final
 	DefaultedList<Ingredient> input;
 
-	@Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
-	public void craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager, CallbackInfoReturnable<ItemStack> callbackInfoReturnable) {
+	@Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
+	public void craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager, CallbackInfoReturnable<ItemStack> callbackInfoReturnable) {
 		ItemStack result = RecipeUtil.getDollarAppliedResult(output, input, craftingInventory);
 		if (result != null) callbackInfoReturnable.setReturnValue(result);
 	}

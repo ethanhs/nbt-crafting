@@ -58,7 +58,7 @@ public abstract class MixinSmithingScreenHandler extends ForgingScreenHandler {
 			cancellable = true
 	)
 	public void onUpdateResult(CallbackInfo callbackInfo) {
-		Optional<IngredientRecipe<Inventory>> match = player.world.getRecipeManager().getFirstMatch(NbtCrafting.SMITHING_RECIPE_TYPE, input, player.world);
+		Optional<IngredientRecipe<Inventory>> match = player.getWorld().getRecipeManager().getFirstMatch(NbtCrafting.SMITHING_RECIPE_TYPE, input, player.getWorld());
 
 		if (match.isPresent()) {
 			output.setStack(0, match.get().craft(input, this.world.getRegistryManager()));
@@ -82,7 +82,7 @@ public abstract class MixinSmithingScreenHandler extends ForgingScreenHandler {
 			at = @At("HEAD")
 	)
 	protected void onTakeOutput(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
-		Optional<IngredientRecipe<Inventory>> match = player.world.getRecipeManager().getFirstMatch(NbtCrafting.SMITHING_RECIPE_TYPE, input, player.world);
+		Optional<IngredientRecipe<Inventory>> match = player.getWorld().getRecipeManager().getFirstMatch(NbtCrafting.SMITHING_RECIPE_TYPE, input, player.getWorld());
 		remainders = match.map(inventoryIngredientRecipe -> inventoryIngredientRecipe.getRemainder(input)).orElse(null);
 	}
 
