@@ -34,7 +34,7 @@ public abstract class MixinInputSlotFiller {
 	private int playerInventoryFindStack(PlayerInventory inventory, ItemStack stack) {
 		for (int i = 0; i < inventory.main.size(); i++) {
 			ItemStack stack2 = inventory.main.get(i);
-			if (stack.getItem() == stack2.getItem() && ItemStack.areEqual(stack, stack2))
+			if (stack.getItem() == stack2.getItem() && ItemStack.canCombine(stack, stack2))
 				return i;
 		}
 		if (!stack.hasNbt()) {

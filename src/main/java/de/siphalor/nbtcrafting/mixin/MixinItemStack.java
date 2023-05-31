@@ -33,7 +33,7 @@ public class MixinItemStack implements IItemStack {
 	@Shadow
 	private NbtCompound nbt;
 
-	@Inject(method = "areEqual", at = @At(value = "RETURN", ordinal = 2), cancellable = true)
+	@Inject(method = "canCombine", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
 	private static void areTagsEqualReturn1(ItemStack stack1, ItemStack stack2, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
 		if (stack2.getNbt() == null || stack2.getNbt().isEmpty())
 			callbackInfoReturnable.setReturnValue(true);

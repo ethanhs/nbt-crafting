@@ -195,7 +195,7 @@ public abstract class MixinIngredient implements IIngredient, ICloneable {
 		}
 	}
 
-	@Inject(method = "fromJson", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "fromJson(Lcom/google/gson/JsonElement;Z)Lnet/minecraft/recipe/Ingredient;", at = @At("HEAD"), cancellable = true)
 	private static void fromJson(JsonElement element, boolean bl, CallbackInfoReturnable<Ingredient> callbackInfoReturnable) {
 		if (element == null || element.isJsonNull()) {
 			throw new JsonSyntaxException("Item cannot be null");
