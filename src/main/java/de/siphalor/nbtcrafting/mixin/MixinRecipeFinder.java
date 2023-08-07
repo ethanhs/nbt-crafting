@@ -49,7 +49,7 @@ public abstract class MixinRecipeFinder {
 
 	@Unique
 	private static Pair<Integer, NbtCompound> getStackPair(ItemStack stack) {
-		return new Pair<Integer, NbtCompound>(Registries.ITEM.getRawId(stack.getItem()), NbtUtil.getTagOrEmpty(stack));
+		return new Pair<>(Registries.ITEM.getRawId(stack.getItem()), NbtUtil.getTagOrEmpty(stack));
 	}
 
 	@Inject(method = "match(Lnet/minecraft/recipe/Recipe;Lit/unimi/dsi/fastutil/ints/IntList;I)Z", at = @At("HEAD"))

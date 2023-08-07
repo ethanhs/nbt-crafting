@@ -28,6 +28,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -51,7 +52,7 @@ public abstract class MixinAnimatedResultButton extends ClickableWidget {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawItemWithoutEntity(Lnet/minecraft/item/ItemStack;II)V"),
 			locals = LocalCapture.CAPTURE_FAILSOFT
 	)
-	private void beforeItemDrawn(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci, MinecraftClient minecraftClient, int int_3, int int_4, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack, int offset) {
+	private void beforeItemDrawn(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci, Identifier identifier, boolean boolean_1, @SuppressWarnings("rawtypes") List list, ItemStack stack, int offset) {
 		itemDrawOffset = offset;
 	}
 
@@ -60,7 +61,7 @@ public abstract class MixinAnimatedResultButton extends ClickableWidget {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawItemWithoutEntity(Lnet/minecraft/item/ItemStack;II)V", shift = Shift.AFTER),
 			locals = LocalCapture.CAPTURE_FAILSOFT
 	)
-	private void drawButton(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci, MinecraftClient minecraftClient, int int_3, int int_4, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack, int offset) {
-		context.drawItemInSlot(minecraftClient.textRenderer, stack, this.getX() + itemDrawOffset, this.getY() + itemDrawOffset);
+	private void drawButton(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci, Identifier identifier, boolean boolean_1, @SuppressWarnings("rawtypes") List list_1, ItemStack stack, int offset) {
+		context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, stack, this.getX() + itemDrawOffset, this.getY() + itemDrawOffset);
 	}
 }

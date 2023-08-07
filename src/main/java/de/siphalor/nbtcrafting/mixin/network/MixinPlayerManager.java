@@ -49,10 +49,10 @@ public class MixinPlayerManager {
 			method = "onPlayerConnect",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/network/packet/s2c/play/CustomPayloadS2CPacket;<init>(Lnet/minecraft/util/Identifier;Lnet/minecraft/network/PacketByteBuf;)V"
+					target = "Lnet/minecraft/network/packet/s2c/play/DifficultyS2CPacket;<init>(Lnet/minecraft/world/Difficulty;Z)V"
 			)
 	)
-	public void beforeRegistrySync(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
+	public void beforeRegistrySync(ClientConnection connection, ServerPlayerEntity player, int latency, CallbackInfo ci) {
 		NbtCrafting.lastServerPlayerEntity.set(player);
 	}
 
@@ -62,7 +62,7 @@ public class MixinPlayerManager {
 					value = "RETURN"
 			)
 	)
-	public void afterRecipeSync(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
+	public void afterRecipeSync(ClientConnection connection, ServerPlayerEntity player, int latency, CallbackInfo ci) {
 		if (NbtCrafting.hasClientMod(player)) {
 			NbtCrafting.logInfo("Syncing advanced recipe data to player " + player.getEntityName());
 			List<PacketByteBuf> packets = NbtCrafting.createAdvancedRecipeSyncPackets(server.getRecipeManager());

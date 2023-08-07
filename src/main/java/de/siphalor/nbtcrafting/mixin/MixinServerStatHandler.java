@@ -32,8 +32,8 @@ import de.siphalor.nbtcrafting.NbtCrafting;
 public class MixinServerStatHandler {
 	@Inject(method = "setStat", at = @At("TAIL"))
 	public void setStat(PlayerEntity playerEntity, Stat<?> stat, int value, CallbackInfo callbackInfo) {
-		if (playerEntity instanceof ServerPlayerEntity) {
-			NbtCrafting.STAT_CHANGED_CRITERION.trigger((ServerPlayerEntity) playerEntity, stat, value);
+		if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
+			NbtCrafting.STAT_CHANGED_CRITERION.trigger(serverPlayer, stat, value);
 		}
 	}
 }
