@@ -34,6 +34,8 @@ import net.minecraft.util.JsonHelper;
 
 import de.siphalor.nbtcrafting.NbtCrafting;
 
+import java.util.Optional;
+
 public class StatChangedCriterion extends AbstractCriterion<StatChangedCriterion.Conditions<?>> {
 	private static final Identifier ID = new Identifier(NbtCrafting.MOD_ID, "stat_changed");
 
@@ -50,7 +52,7 @@ public class StatChangedCriterion extends AbstractCriterion<StatChangedCriterion
 	}
 
 	@Override
-	protected Conditions<?> conditionsFromJson(JsonObject obj, LootContextPredicate playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
+	protected Conditions<?> conditionsFromJson(JsonObject obj, Optional<LootContextPredicate> playerPredicate, AdvancementEntityPredicateDeserializer predicateDeserializer) {
 		Identifier statId = new Identifier(JsonHelper.getString(obj, "stat"));
 		StatType<?> statType = Registries.STAT_TYPE.getOrEmpty(statId).orElseThrow(() -> new JsonSyntaxException("Unknown stat: " + statId));
 
@@ -65,7 +67,7 @@ public class StatChangedCriterion extends AbstractCriterion<StatChangedCriterion
 		private final T object;
 		private final NumberRange.IntRange intRange;
 
-		public Conditions(StatType<T> statType, T object, NumberRange.IntRange intRange, LootContextPredicate playerPredicate) {
+		public Conditions(StatType<T> statType, T object, NumberRange.IntRange intRange, Optional<LootContextPredicate> playerPredicate) {
 			super(ID, playerPredicate);
 			this.statType = statType;
 			this.object = object;
