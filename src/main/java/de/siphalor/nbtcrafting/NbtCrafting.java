@@ -220,7 +220,9 @@ public class NbtCrafting implements ModInitializer {
 			buf.writeIdentifier(recipe.getId());
 			//noinspection unchecked
 			serializer.write(buf, recipe);
-
+			if (buf.readableBytes() > 2_097_152) {
+				NbtCrafting.logError(String.format("Packet for recipe %s was too big! %d > 2_097_152", recipe.getId(), buf.readableBytes()));
+			}
 			if (buf.readableBytes() > 1_900_000) { // max packet size is 2^21=2_097_152 bytes
 				packets.add(buf);
 				buf = new PacketByteBuf(Unpooled.buffer());
